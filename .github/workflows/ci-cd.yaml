@@ -36,9 +36,6 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Set Node.js memory (Angular build deps)
-        run: echo "NODE_OPTIONS=--max_old_space_size=4096" >> $GITHUB_ENV
-
       - name: Build ThingsBoard (skip tests)
         env:
           MAVEN_OPTS: "-Xmx1024m"
