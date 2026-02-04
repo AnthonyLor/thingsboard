@@ -57,4 +57,24 @@ class TimeUtilsTest {
         assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.QUARTER, ZoneId.of("America/New_York"))).isEqualTo(1711944000000L); // Monday, April 1, 2024 7:00:00 GMT+03:00 DST
     }
 
+    @Test
+        void testSemesterEnd() {
+            long ts = 1704899727000L; // Wednesday, January 10 2024 15:15:27 GMT
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.SEMESTER, ZoneId.of("Europe/Kyiv"))).isEqualTo(1719781200000L); // Monday, July 1, 2024 0:00:00 GMT+03:00 DST
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.SEMESTER, ZoneId.of("Europe/Amsterdam"))).isEqualTo(1719784800000L); // Monday, July 1, 2024 0:00:00 GMT+02:00 DST
+        
+            ts = 1722528000000L; // Thursday, August 1, 2024 0:00:00 GMT+03:00
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.SEMESTER, ZoneId.of("Europe/Kyiv"))).isEqualTo(1735682400000L); // Wednesday, January 1, 2025 0:00:00 GMT+02:00
+        }
+    
+        @Test
+        void testYearEnd() {
+            long ts = 1704899727000L; // Wednesday, January 10 2024 15:15:27 GMT
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.YEAR, ZoneId.of("Europe/Kyiv"))).isEqualTo(1735682400000L); // Wednesday, January 1, 2025 0:00:00 GMT+02:00
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.YEAR, ZoneId.of("Europe/Amsterdam"))).isEqualTo(1735686000000L); // Wednesday, January 1, 2025 0:00:00 GMT+01:00
+        
+            ts = 1735682400000L; // January 1, 2025 0:00:00 GMT+02:00
+            assertThat(TimeUtils.calculateIntervalEnd(ts, IntervalType.YEAR, ZoneId.of("Europe/Kyiv"))).isEqualTo(1767218400000L); // Thursday, January 1, 2026 0:00:00 GMT+02:00
+        }
+
 }

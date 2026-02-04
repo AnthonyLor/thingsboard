@@ -40,6 +40,10 @@ public class TimeUtils {
                 return startTime.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).plusMonths(1).toInstant().toEpochMilli();
             case QUARTER:
                 return startTime.truncatedTo(ChronoUnit.DAYS).with(IsoFields.DAY_OF_QUARTER, 1).plusMonths(3).toInstant().toEpochMilli();
+            case SEMESTER:
+                return startTime.truncatedTo(ChronoUnit.DAYS).withMonth(startTime.getMonthValue() <= 6 ? 1 : 7).withDayOfMonth(1).plusMonths(6).toInstant().toEpochMilli();
+            case YEAR:
+                return startTime.truncatedTo(ChronoUnit.DAYS).withDayOfYear(1).plusYears(1).toInstant().toEpochMilli();
             default:
                 throw new RuntimeException("Not supported!");
         }
