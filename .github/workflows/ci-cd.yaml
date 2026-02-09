@@ -6,6 +6,7 @@ on:
   pull_request:
 
 jobs:
+
   build-test-run:
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -83,3 +84,16 @@ jobs:
 
           # Stop app
           kill $TB_PID
+
+      - name: SonarCloud Scan - DAO Utils
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=AnthonyLor_thingsboard
+            -Dsonar.organization=$SONAR_ORG_KEY
+            -Dsonar.sources=dao/src/main/java/org/thingsboard/server/dao/util
+            -Dsonar.java.binaries=dao/target/classes
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORG_KEY: ${{ secrets.SONAR_ORG_KEY }}
